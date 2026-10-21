@@ -102,3 +102,27 @@ The available observations do not justify declaring a confirmed incident. Furthe
 ---
 
 **Disclaimer:** This case study is for educational and defensive cybersecurity training. It summarizes selected local lab observations and does not claim to represent a complete forensic investigation.
+
+### Controlled Process-Lineage Validation
+
+**Objective:** Validate process relationships using Windows Security Event ID 4688.
+
+**Methodology:**
+- Generated a controlled PowerShell-to-Notepad process-launch scenario.
+- Examined process-creation events in the Windows Security log.
+- Correlated `NewProcessId`, creator `ProcessId`, executable paths, and UTC timestamps.
+
+**Key observations:**
+- The PowerShell event recorded PID `0x6db0`.
+- A subsequent Notepad process candidate recorded PID `0x44b8`, with creator PID `0x6db0`.
+- A further Notepad process recorded PID `0x507c`, with creator PID `0x44b8`.
+- The timestamps were chronologically consistent with the observed process relationships.
+
+**Assessment:** The available Event ID 4688 records support the PowerShell-to-Notepad process lineage observed during the controlled test. The Explorer-to-PowerShell relationship was not independently verified.
+
+**Limitations:** Process-creation telemetry establishes recorded process relationships, not malicious intent. PID reuse and incomplete event coverage must be considered during investigation.
+
+**Outcome:** Controlled process-lineage validation completed with a documented limitation. No malicious activity was established by these events alone.
+
+
+
